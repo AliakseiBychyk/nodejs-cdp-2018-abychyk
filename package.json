@@ -4,7 +4,8 @@
   "description": "Node.js CDP 2018 Aliaksei Bychyk",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --require babel-core/register ./app.js"
+    "start": "nodemon --require babel-core/register ./app.js",
+    "test": ""
   },
   "author": "Aliaksei Bychyk",
   "license": "ISC",
