@@ -12,8 +12,5 @@ console.log(config.name);
 const watcher = new DirWatcher();
 const importer = new Importer();
 
-watcher.watch('./data', 3000);
-watcher.on('changed', (err) => {
-  if (err) throw err;
-  importer.import('./data')
-});
+importer.import('./data')
+  .then((data) => console.log(data))
