@@ -12,5 +12,7 @@ console.log(config.name);
 const watcher = new DirWatcher();
 const importer = new Importer();
 
-importer.import('./data')
-  .then((data) => console.log(data))
+// importer.import('./data')
+//   .then((data) => console.log(data))
+
+importer.importSync('./data')
