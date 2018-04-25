@@ -1,16 +1,16 @@
 import EventEmitter from 'events';
 import fs from 'fs';
 import path from 'path';
-import DirWatcher from './dirwatcher';
+// import DirWatcher from './dirwatcher';
 
-const dirwatcher = new DirWatcher()
+// const dirwatcher = new DirWatcher()
 
 class Importer extends EventEmitter {
   import = (dir) => {  
     
-    dirwatcher.watch(dir, 3000)
-    dirwatcher.on('changed', (err) => {
-      if (err) throw err;
+    // dirwatcher.watch(dir, 3000)
+    // this.on('changed', (err) => {
+    //   if (err) throw err;
       fs.readdir(dir, (err, files) => {
         files.forEach(fileName => {
           const file = path.join(__dirname, dir, fileName)
@@ -20,7 +20,7 @@ class Importer extends EventEmitter {
           })
         })
       })
-    })  
+    // })  
   } 
 }
 
