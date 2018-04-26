@@ -14,7 +14,7 @@ class Importer extends EventEmitter {
       return new Promise((resolve, reject) => {
         fs.readFile(filePath, 'UTF-8', (err, content) => {
           if (err) reject(err);
-          const data = csvjson.toObject(content);
+          const data = csvjson.toObject(content, config.csv_options);
           resolve(data)
         })
       })
