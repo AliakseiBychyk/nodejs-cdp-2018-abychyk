@@ -1,7 +1,9 @@
 import EventEmitter from 'events';
 import fs from 'fs';
 import path from 'path';
+import csvjson from 'csvjson';
 import DirWatcher from './dirwatcher';
+import config from './config/config.json';
 
 const dirwatcher = new DirWatcher()
 
@@ -12,7 +14,8 @@ class Importer extends EventEmitter {
       return new Promise((resolve, reject) => {
         fs.readFile(filePath, 'UTF-8', (err, content) => {
           if (err) reject(err);
-          resolve(content)
+          const data = csvjson.toObject(content);
+          resolve(data)
         })
       })
     }

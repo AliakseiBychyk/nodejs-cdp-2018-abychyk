@@ -1,3 +1,7 @@
 {
-  "name": "Node.js Homework Application"
+  "name": "Node.js Homework Application",
+  "csv_options": {
+    "delimiter": ",",
+    "quote": "\""
+  }
 }
