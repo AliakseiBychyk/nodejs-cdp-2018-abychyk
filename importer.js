@@ -8,7 +8,7 @@ import config from './config/config.json';
 const dirwatcher = new DirWatcher()
 
 class Importer extends EventEmitter {
-  import = (dir) => {  
+  import = (dir, emitter) => {  
 
     const read = (filePath) => {
       return new Promise((resolve, reject) => {
@@ -21,10 +21,10 @@ class Importer extends EventEmitter {
     }
     
     return new Promise((resolve, reject) => {
-      dirwatcher.watch(dir, 3000)
-      dirwatcher.on('changed', (err) => {
+      emitter.on('changed', (err) => {
         if (err) reject(err);
         
+        console.log('start async reading...')
         return fs.readdir(dir, (err, files) => {
           if (err) reject(err);
          
@@ -32,22 +32,24 @@ class Importer extends EventEmitter {
             const filePath = path.join(__dirname, dir, fileName)
             return read(filePath)
           }))
-            .then(data => resolve(data))      
+            .then(data => {
+              resolve(data)
+            })      
         })
-
       })
     })
   } 
 
-  importSync = (dir) => {
-    dirwatcher.watch(dir, 3000);
-    dirwatcher.on('changed', (err) => {
+  importSync = (dir, emitter) => {
+    emitter.on('changed', (err) => {
       if (err) throw err;
 
+      console.log('start reading synchronosly...')
       const files = fs.readdirSync(dir)
       const content = files.map(file => {
         const filePath = path.join(__dirname, dir, file)
-        return fs.readFileSync(filePath, 'UTF-8')
+        const csvData = fs.readFileSync(filePath, 'UTF-8')
+        return csvjson.toObject(csvData, config.csv_options);
       })
       console.log(content)
       return content
