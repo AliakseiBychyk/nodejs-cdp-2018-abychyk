@@ -2,10 +2,7 @@ import EventEmitter from 'events';
 import fs from 'fs';
 import path from 'path';
 import csvjson from 'csvjson';
-import DirWatcher from './dirwatcher';
 import config from './config/config.json';
-
-const dirwatcher = new DirWatcher()
 
 class Importer extends EventEmitter {
   import = (dir, emitter) => {  
@@ -18,8 +15,8 @@ class Importer extends EventEmitter {
           resolve(data)
         })
       })
-    }
-    
+    };
+
     return new Promise((resolve, reject) => {
       emitter.on('changed', (err) => {
         if (err) reject(err);

@@ -17,4 +17,4 @@ watcher.watch('./data', 3000);
 importer.import('./data', watcher)
   .then(data => console.log(data))  
 
-importer.importSync('./data', watcher)
+// importer.importSync('./data', watcher)
