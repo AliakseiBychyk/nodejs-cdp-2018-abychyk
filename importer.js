@@ -5,14 +5,7 @@ import csvjson from 'csvjson';
 import config from './config/config.json';
 
 class Importer extends EventEmitter {
-  subscribeListenerForImport = (emitter, dir) => {
-    emitter.on(emitter.changed, (err) => {
-      if (err) throw err;
-      return this.import(dir).then(data=> console.log(data))
-    })
-  }
-
-  read = (filePath) => {
+  static read = (filePath) => {
     return new Promise((resolve, reject) => {
       fs.readFile(filePath, 'UTF-8', (err, content) => {
         if (err) reject(err);
@@ -21,7 +14,14 @@ class Importer extends EventEmitter {
       })
     })
   }
-  
+
+  subscribeListenerForImport = (emitter, dir) => {
+    emitter.on(emitter.changed, (err) => {
+      if (err) throw err;
+      return this.import(dir).then(data=> console.log(data))
+    })
+  }
+ 
   import = (dir) => {  
     return new Promise((resolve, reject) => {    
         console.log('start async reading...')
