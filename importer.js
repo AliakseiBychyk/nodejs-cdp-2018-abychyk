@@ -6,7 +6,7 @@ import config from './config/config.json';
 
 class Importer extends EventEmitter {
   subscribeListenerForImport = (emitter, dir) => {
-    emitter.on('dirwatcher:changed', (err) => {
+    emitter.on(emitter.changed, (err) => {
       if (err) throw err;
       return this.import(dir).then(data=> console.log(data))
     })
