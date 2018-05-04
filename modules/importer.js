@@ -2,7 +2,7 @@ import EventEmitter from 'events';
 import fs from 'fs';
 import path from 'path';
 import csvjson from 'csvjson';
-import config from './config/config.json';
+import config from '../config/config.json';
 
 const read = (filePath) => {
   return new Promise((resolve, reject) => {
