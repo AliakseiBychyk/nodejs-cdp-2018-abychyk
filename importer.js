@@ -5,6 +5,13 @@ import csvjson from 'csvjson';
 import config from './config/config.json';
 
 class Importer extends EventEmitter {
+  subscribeListenerForImport = (emitter, dir) => {
+    emitter.on('dirwatcher:changed', (err) => {
+      if (err) throw err;
+      return this.import(dir).then(data=> console.log(data))
+    })
+  }
+
   read = (filePath) => {
     return new Promise((resolve, reject) => {
       fs.readFile(filePath, 'UTF-8', (err, content) => {
@@ -15,11 +22,8 @@ class Importer extends EventEmitter {
     })
   }
   
-  import = (dir, emitter) => {  
-    return new Promise((resolve, reject) => {
-      emitter.on('dirwatcher:changed', (err) => {
-        if (err) reject(err);
-        
+  import = (dir) => {  
+    return new Promise((resolve, reject) => {    
         console.log('start async reading...')
         return fs.readdir(dir, (err, files) => {
           if (err) reject(err);
@@ -33,7 +37,6 @@ class Importer extends EventEmitter {
             })      
         })
       })
-    })
   } 
 
   importSync = (dir, emitter) => {

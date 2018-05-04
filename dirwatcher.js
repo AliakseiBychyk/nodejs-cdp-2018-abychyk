@@ -24,7 +24,7 @@ class DirWatcher extends EventEmitter {
   unwatch = (timeout) => {
     setTimeout(() => {
       clearInterval(this.interval);
-      console.log(`interval cleared in ${timeout / 1000} sec`);
+      console.log(`Interval cleared in ${timeout / 1000} sec`);
     }, timeout)
   }
 

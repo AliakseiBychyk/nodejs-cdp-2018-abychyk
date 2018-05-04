@@ -14,8 +14,7 @@ const importer = new Importer();
 
 let a = watcher.watch('./data', 3000);
 
-importer.import('./data', watcher)
-  .then(data => console.log(data))  
+importer.subscribeListenerForImport(watcher, './data')  
 
 // importer.importSync('./data', watcher)
 watcher.unwatch(15000);
