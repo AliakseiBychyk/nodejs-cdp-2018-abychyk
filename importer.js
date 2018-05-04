@@ -4,17 +4,17 @@ import path from 'path';
 import csvjson from 'csvjson';
 import config from './config/config.json';
 
-class Importer extends EventEmitter {
-  static read = (filePath) => {
-    return new Promise((resolve, reject) => {
-      fs.readFile(filePath, 'UTF-8', (err, content) => {
-        if (err) reject(err);
-        const data = csvjson.toObject(content, config.csv_options);
-        resolve(data)
-      })
+const read = (filePath) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'UTF-8', (err, content) => {
+      if (err) reject(err);
+      const data = csvjson.toObject(content, config.csv_options);
+      resolve(data)
     })
-  }
+  })
+}
 
+class Importer extends EventEmitter {
   subscribeListenerForImport = (emitter, dir) => {
     emitter.on(emitter.changed, (err) => {
       if (err) throw err;
@@ -30,7 +30,7 @@ class Importer extends EventEmitter {
          
           Promise.all(files.map(fileName => {
             const filePath = path.join(__dirname, dir, fileName)
-            return this.read(filePath)
+            return read(filePath)
           }))
             .then(data => {
               resolve(data)
