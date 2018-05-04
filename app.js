@@ -10,11 +10,11 @@ const product = new Product('Jumbo Jet');
 console.log(config.name);
 
 const watcher = new DirWatcher();
-const importer = new Importer();
+const importer = new Importer(watcher);
 
 let a = watcher.watch('./data', 3000);
 
-importer.subscribeListenerForImport(watcher, './data')  
+importer.subscribeListenerForImport('./data')  
 
 // importer.importSync('./data', watcher)
 // watcher.unwatch(15000);

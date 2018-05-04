@@ -10,13 +10,18 @@ const read = (filePath) => {
       if (err) reject(err);
       const data = csvjson.toObject(content, config.csv_options);
       resolve(data)
-    })
-  })
+    });
+  });
 }
 
 class Importer extends EventEmitter {
-  subscribeListenerForImport = (emitter, dir) => {
-    emitter.on(emitter.changed, (err) => {
+  constructor(emitter) {
+    super();
+    this.emitter = emitter;
+  }
+
+  subscribeListenerForImport = (dir) => {
+    this.emitter.on(this.emitter.changed, (err) => {
       if (err) throw err;
       return this.import(dir).then(data=> console.log(data))
     })
