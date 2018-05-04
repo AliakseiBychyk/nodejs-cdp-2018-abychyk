@@ -5,20 +5,19 @@ import csvjson from 'csvjson';
 import config from './config/config.json';
 
 class Importer extends EventEmitter {
-  import = (dir, emitter) => {  
-
-    const read = (filePath) => {
-      return new Promise((resolve, reject) => {
-        fs.readFile(filePath, 'UTF-8', (err, content) => {
-          if (err) reject(err);
-          const data = csvjson.toObject(content, config.csv_options);
-          resolve(data)
-        })
-      })
-    };
-
+  read = (filePath) => {
     return new Promise((resolve, reject) => {
-      emitter.on('changed', (err) => {
+      fs.readFile(filePath, 'UTF-8', (err, content) => {
+        if (err) reject(err);
+        const data = csvjson.toObject(content, config.csv_options);
+        resolve(data)
+      })
+    })
+  }
+  
+  import = (dir, emitter) => {  
+    return new Promise((resolve, reject) => {
+      emitter.on('dirwatcher:changed', (err) => {
         if (err) reject(err);
         
         console.log('start async reading...')
@@ -27,7 +26,7 @@ class Importer extends EventEmitter {
          
           Promise.all(files.map(fileName => {
             const filePath = path.join(__dirname, dir, fileName)
-            return read(filePath)
+            return this.read(filePath)
           }))
             .then(data => {
               resolve(data)
@@ -38,7 +37,7 @@ class Importer extends EventEmitter {
   } 
 
   importSync = (dir, emitter) => {
-    emitter.on('changed', (err) => {
+    emitter.on('dirwatcher:changed', (err) => {
       if (err) throw err;
 
       console.log('start reading synchronosly...')
