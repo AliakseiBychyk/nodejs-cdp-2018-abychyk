@@ -17,6 +17,7 @@
     "nodemon": "^1.17.3"
   },
   "dependencies": {
+    "commander": "^2.15.1",
     "csvjson": "^5.0.0"
   }
 }
