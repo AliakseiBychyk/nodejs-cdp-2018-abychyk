@@ -1,23 +1,23 @@
 const program = require('commander');
 
 const reverse = str => {
-  console.log(`run reverse ${str}`)
+  console.log(`run reverse(${str})`)
 };
 
 const transform = str => {
-  console.log(`run transform ${str}`)
+  console.log(`run transform(${str})`)
 };
 
 const outputFile = filePath => {
-  console.log(`run outputFile ${filePath}`)
+  console.log(`run outputFile(${filePath})`)
 };
 
 const convertFromFile = filePath => {
-  console.log(`run convertFromFile ${filePath}`)
+  console.log(`run convertFromFile(${filePath})`)
 };
 
 const convertToFile = filePath => {
-  console.log(`run convertToFile ${filePath}`)
+  console.log(`run convertToFile(${filePath})`)
 };
 
 const functions = {
@@ -35,14 +35,13 @@ program
   .parse(process.argv)
 
 if (!program.action || ((program.action !== 'transform' && program.action !== 'reverse') && !program.file)) {
-  console.log('Wrong input! Please input correct data.')
-  return
+  console.log('Wrong input! Please input correct data.');
+  return;
 }
 
 if (program.action === 'transform' || program.action === 'reverse') {
   functions[program.action] && functions[program.action](...program.args);
-  return
+  return;
 }
 
-functions[program.action] && functions[program.action](...program.args);
-
+functions[program.action] && functions[program.action](program.file);
