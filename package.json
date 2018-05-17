@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "commander": "^2.15.1",
-    "csvjson": "^5.0.0"
+    "csvjson": "^5.0.0",
+    "through2": "^2.0.3"
   }
 }
