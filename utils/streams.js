@@ -101,18 +101,18 @@ const convertToFile = file => {
  * 
  * */
 const cssBundler = folder => {
-  console.log(`run cssBundler(${folder})`)
+  const writer = fs.createWriteStream(path.join(__dirname, 'bundle.css'))
   const folderPath = path.join(__dirname, folder)
   
   fs.readdir(folderPath, (err, files) => {
     if (err) throw err;
     files.forEach(fileName => {
       const file = path.join(__dirname, 'styles', fileName)
-      console.log(file)
       if (fileName.match(/.css/)) {
         fs.readFile(file, 'UTF-8', (err, content) => {
           if (err) throw err;
           console.log(content)
+          writer.write(content + '\n')
         })
       }
     })
