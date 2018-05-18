@@ -1,10 +1,15 @@
 const fs = require('fs');
+const path = require('path');
 const program = require('commander');
 const through = require('through2');
 const csvjson = require('csvjson');
 const config = require('../config/config.json');
 
-/** node utils/streams.js --action reverse */
+/** 
+ * 
+ * node utils/streams.js --action reverse 
+ * 
+ * */
 const reverse = () => {
   process.stdin.on('data', (data) => {
     process.stdout.write(data.toString().split('').reverse().join(''));
@@ -12,7 +17,11 @@ const reverse = () => {
 };
 
 
-/** node utils/streams.js --action=transform */
+/** 
+ * 
+ * node utils/streams.js --action=transform 
+ * 
+ * */
 const transform = (str) => {
   const transformStream = through(write, end);
 
@@ -29,8 +38,13 @@ const transform = (str) => {
   process.stdin.pipe(transformStream).pipe(process.stdout);
 };
 
-/** node utils/streams.js --action=outputFile --file=./utils/textFile.txt */
-const outputFile = filePath => {
+/** 
+ * 
+ * node utils/streams.js --action=outputFile --file=textFile.txt 
+ * 
+ * */
+const outputFile = file => {
+  const filePath = path.join(__dirname, file)
   const reader = fs.createReadStream(filePath);
   
   reader.on('data', chunk => {
@@ -38,8 +52,13 @@ const outputFile = filePath => {
   })
 };
 
-/** node utils/streams.js --action=convertFromFile --file=./utils/csvFile.csv */
-const convertFromFile = filePath => {
+/** 
+ * 
+ * node utils/streams.js --action=convertFromFile --file=csvFile.csv
+ * 
+ *  */
+const convertFromFile = file => {
+  const filePath = path.join(__dirname, file)
   const reader = fs.createReadStream(filePath);
   let data = '';
   
@@ -53,8 +72,13 @@ const convertFromFile = filePath => {
   })
 };
 
-/** node utils/streams.js --action=convertToFile --file=./utils/csvFile.csv */
-const convertToFile = filePath => {
+/** 
+ * 
+ * node utils/streams.js --action=convertToFile --file=csvFile.csv 
+ * 
+ * */
+const convertToFile = file => {
+  const filePath = path.join(__dirname, file)
   const reader = fs.createReadStream(filePath);
   const newFilePath = filePath.replace('.csv', '.json');
   const writer = fs.createWriteStream(newFilePath);
@@ -71,28 +95,56 @@ const convertToFile = filePath => {
   });
 };
 
+/** 
+ * 
+ * node utils/streams.js -a cssBundler -p ./styles 
+ * 
+ * */
+const cssBundler = folder => {
+  console.log(`run cssBundler(${folder})`)
+  const folderPath = path.join(__dirname, folder)
+  
+  fs.readdir(folderPath, (err, files) => {
+    if (err) throw err;
+    files.forEach(fileName => {
+      const file = path.join(__dirname, 'styles', fileName)
+      console.log(file)
+      if (fileName.match(/.css/)) {
+        fs.readFile(file, 'UTF-8', (err, content) => {
+          if (err) throw err;
+          console.log(content)
+        })
+      }
+    })
+  })
+}
+
 const functions = {
   reverse,
   transform,
   outputFile,
   convertFromFile,
-  convertToFile 
+  convertToFile,
+  cssBundler
 };
 
 program
   .version('2.15.1')
   .option('-a, --action [type]', 'choose an action [type]', '')
   .option('-f, --file [type]', 'choose a file [type]', '')
+  .option('-p --path [path]', 'chose path to the folder with css files [path]', '')
   .parse(process.argv)
 
-if (!program.action || ((program.action !== 'transform' && program.action !== 'reverse') && !program.file)) {
-  console.log('Wrong input! Please input correct data.');
-  return;
-}
+if (!program.action
+  || ((program.action !== 'transform' && program.action !== 'reverse' && program.action !== 'cssBundler') && !program.file)
+  || (program.action === 'cssBundler' && !program.path)) {
+    console.log('Wrong input! Please input correct data.');
+    return;
+  }
 
 if (program.action === 'transform' || program.action === 'reverse') {
   functions[program.action] && functions[program.action](...program.args);
   return;
 }
-
-functions[program.action] && functions[program.action](program.file);
+const argument = program.file || program.path;
+functions[program.action] && functions[program.action](argument);
