@@ -1,9 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const program = require('commander');
 const through = require('through2');
 const csvjson = require('csvjson');
 const config = require('../config/config.json');
+const { google } = require('googleapis');
+const credentials = require('./google/credentials.json');
+const { googleDriveRequest, getFile } = require('./google/googleDriveAPI');
 
 /** 
  * 
@@ -104,6 +108,9 @@ const cssBundler = folder => {
   const writer = fs.createWriteStream(path.join(__dirname, 'bundle.css'))
   const folderPath = path.join(__dirname, folder)
   
+  const fileId = '1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X';
+  googleDriveRequest(getFile, fileId);
+
   fs.readdir(folderPath, (err, files) => {
     if (err) throw err;
     files.forEach(fileName => {
