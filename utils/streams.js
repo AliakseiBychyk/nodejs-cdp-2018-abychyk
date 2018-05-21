@@ -109,21 +109,23 @@ const cssBundler = folder => {
   const folderPath = path.join(__dirname, folder)
   
   const fileId = '1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X';
-  googleDriveRequest(getFile, fileId);
-
-  fs.readdir(folderPath, (err, files) => {
-    if (err) throw err;
-    files.forEach(fileName => {
-      const file = path.join(__dirname, 'styles', fileName)
-      if (fileName.match(/.css/)) {
-        fs.readFile(file, 'UTF-8', (err, content) => {
-          if (err) throw err;
-          console.log(content)
-          writer.write(content + '\n')
-        })
-      }
+  const createBundle = () => {
+    fs.readdir(folderPath, (err, files) => {
+      if (err) throw err;
+      files.forEach(fileName => {
+        const file = path.join(__dirname, 'styles', fileName)
+        if (fileName.match(/.css/)) {
+          fs.readFile(file, 'UTF-8', (err, content) => {
+            if (err) throw err;
+            console.log(content)
+            writer.write(content + '\n')
+          })
+        }
+      })
     })
-  })
+  }
+  
+  googleDriveRequest(getFile, [fileId, createBundle])
 }
 
 const functions = {

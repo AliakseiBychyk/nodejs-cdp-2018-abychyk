@@ -54,7 +54,7 @@ const getAccessToken = (oAuth2Client, callback) => {
   });
 };
 
-const getFile = (auth, fileId) => {
+const getFile = (auth, [fileId, callback]) => {
   const drive = google.drive({ version: 'v3', auth });
   const dest = fs.createWriteStream(path.join(__dirname, '../styles/nodejs18-hw3.css'));
 
@@ -74,6 +74,9 @@ const getFile = (auth, fileId) => {
       console.log('Done');
       })
     .pipe(dest);
+    })
+  dest.on('finish', () => {
+    callback()
   })
 }
 
