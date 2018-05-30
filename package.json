@@ -17,6 +17,9 @@
     "nodemon": "^1.17.3"
   },
   "dependencies": {
-    "csvjson": "^5.0.0"
+    "commander": "^2.15.1",
+    "csvjson": "^5.0.0",
+    "googleapis": "^30.0.0",
+    "through2": "^2.0.3"
   }
 }
