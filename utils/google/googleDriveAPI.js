@@ -54,6 +54,14 @@ const getAccessToken = (oAuth2Client, callback) => {
   });
 };
 
+/**
+ * 
+ * @param {google.auth.OAuth2} auth - an authorized OAuth2 client 
+ * @param {Object[]} options - array of additional parameters
+ * @param {string} options[].fileId - file identifier in google drive
+ * @callback options[].callback - callback methods invoked after getting the file from drive
+ * 
+ */
 const getFile = (auth, [fileId, callback]) => {
   const drive = google.drive({ version: 'v3', auth });
   const dest = fs.createWriteStream(path.join(__dirname, '../styles/nodejs18-hw3.css'));

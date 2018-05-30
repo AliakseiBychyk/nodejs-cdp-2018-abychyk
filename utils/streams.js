@@ -44,12 +44,11 @@ const transform = (str) => {
 
 /** 
  * 
- * node utils/streams.js --action=outputFile --file=textFile.txt 
+ * node utils/streams.js --action=outputFile --file=utils/textFile.txt 
  * 
  * */
 const outputFile = file => {
-  const filePath = path.join(__dirname, file)
-  const reader = fs.createReadStream(filePath);
+  const reader = fs.createReadStream(file);
   
   reader.on('data', chunk => {
     process.stdout.write(chunk.toString())
@@ -58,12 +57,11 @@ const outputFile = file => {
 
 /** 
  * 
- * node utils/streams.js --action=convertFromFile --file=csvFile.csv
+ * node utils/streams.js --action=convertFromFile --file=./utils/csvFile.csv
  * 
  *  */
 const convertFromFile = file => {
-  const filePath = path.join(__dirname, file)
-  const reader = fs.createReadStream(filePath);
+  const reader = fs.createReadStream(file);
   let data = '';
   
   reader.on('data', chunk => {
@@ -78,13 +76,12 @@ const convertFromFile = file => {
 
 /** 
  * 
- * node utils/streams.js --action=convertToFile --file=csvFile.csv 
+ * node utils/streams.js --action=convertToFile --file=utils/csvFile.csv 
  * 
  * */
 const convertToFile = file => {
-  const filePath = path.join(__dirname, file)
-  const reader = fs.createReadStream(filePath);
-  const newFilePath = filePath.replace('.csv', '.json');
+  const reader = fs.createReadStream(file);
+  const newFilePath = file.replace('.csv', '.json');
   const writer = fs.createWriteStream(newFilePath);
   
   let data = '';
@@ -101,23 +98,22 @@ const convertToFile = file => {
 
 /** 
  * 
- * node utils/streams.js -a cssBundler -p ./styles 
+ * node utils/streams.js -a cssBundler -p ./utils/styles 
  * 
  * */
 const cssBundler = folder => {
-  const writer = fs.createWriteStream(path.join(__dirname, 'bundle.css'))
-  const folderPath = path.join(__dirname, folder)
-  
+  const writer = fs.createWriteStream('./utils/bundle.css')
+
   const fileId = '1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X';
   const createBundle = () => {
-    fs.readdir(folderPath, (err, files) => {
+    fs.readdir(folder, (err, files) => {
       if (err) throw err;
-      files.forEach(fileName => {
-        const file = path.join(__dirname, 'styles', fileName)
-        if (fileName.match(/.css/)) {
-          fs.readFile(file, 'UTF-8', (err, content) => {
+
+      files.forEach(file => {
+        if (file.match(/.css/)) {
+          fs.readFile(`${folder}/${file}`, 'UTF-8', (err, content) => {
             if (err) throw err;
-            console.log(content)
+
             writer.write(content + '\n')
           })
         }
