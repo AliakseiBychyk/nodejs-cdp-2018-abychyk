@@ -9,22 +9,22 @@ const { google } = require('googleapis');
 const credentials = require('./google/credentials.json');
 const { googleDriveRequest, getFile } = require('./google/googleDriveAPI');
 
-/** 
- * 
- * node utils/streams.js --action reverse 
- * 
+/**
+ *
+ * node utils/streams.js --action reverse
+ *
  * */
 const reverse = () => {
   process.stdin.on('data', (data) => {
     process.stdout.write(data.toString().split('').reverse().join(''));
-  })
+  });
 };
 
 
-/** 
- * 
- * node utils/streams.js --action=transform 
- * 
+/**
+ *
+ * node utils/streams.js --action=transform
+ *
  * */
 const transform = (str) => {
   const transformStream = through(write, end);
@@ -35,74 +35,74 @@ const transform = (str) => {
     next();
   }
 
-  function end (done) {
+  function end(done) {
     done();
   }
 
   process.stdin.pipe(transformStream).pipe(process.stdout);
 };
 
-/** 
- * 
- * node utils/streams.js --action=outputFile --file=utils/textFile.txt 
- * 
+/**
+ *
+ * node utils/streams.js --action=outputFile --file=utils/textFile.txt
+ *
  * */
 const outputFile = file => {
   const reader = fs.createReadStream(file);
-  
+
   reader.on('data', chunk => {
-    process.stdout.write(chunk.toString())
-  })
+    process.stdout.write(chunk.toString());
+  });
 };
 
-/** 
- * 
+/**
+ *
  * node utils/streams.js --action=convertFromFile --file=./utils/csvFile.csv
- * 
+ *
  *  */
 const convertFromFile = file => {
   const reader = fs.createReadStream(file);
   let data = '';
-  
+
   reader.on('data', chunk => {
     data += chunk;
-  })
-  
+  });
+
   reader.on('end', () => {
     const jsonData = csvjson.toObject(data, config.csv_option);
     process.stdout.write(JSON.stringify(jsonData));
-  })
+  });
 };
 
-/** 
- * 
- * node utils/streams.js --action=convertToFile --file=utils/csvFile.csv 
- * 
+/**
+ *
+ * node utils/streams.js --action=convertToFile --file=utils/csvFile.csv
+ *
  * */
 const convertToFile = file => {
   const reader = fs.createReadStream(file);
   const newFilePath = file.replace('.csv', '.json');
   const writer = fs.createWriteStream(newFilePath);
-  
+
   let data = '';
 
   reader.on('data', chunk => {
     data += chunk;
   });
-  
+
   reader.on('end', () => {
-    jsonData = csvjson.toObject(data, config.csv_option);
+    const jsonData = csvjson.toObject(data, config.csv_option);
     writer.write(JSON.stringify(jsonData));
   });
 };
 
-/** 
- * 
- * node utils/streams.js -a cssBundler -p ./utils/styles 
- * 
+/**
+ *
+ * node utils/streams.js -a cssBundler -p ./utils/styles
+ *
  * */
 const cssBundler = folder => {
-  const writer = fs.createWriteStream('./utils/bundle.css')
+  const writer = fs.createWriteStream('./utils/bundle.css');
 
   const fileId = '1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X';
   const createBundle = () => {
@@ -114,15 +114,15 @@ const cssBundler = folder => {
           fs.readFile(`${folder}/${file}`, 'UTF-8', (err, content) => {
             if (err) throw err;
 
-            writer.write(content + '\n')
-          })
+            writer.write(content + '\n');
+          });
         }
-      })
-    })
-  }
-  
-  googleDriveRequest(getFile, [fileId, createBundle])
-}
+      });
+    });
+  };
+
+  googleDriveRequest(getFile, [fileId, createBundle]);
+};
 
 const functions = {
   reverse,
@@ -130,7 +130,7 @@ const functions = {
   outputFile,
   convertFromFile,
   convertToFile,
-  cssBundler
+  cssBundler,
 };
 
 program
@@ -138,14 +138,17 @@ program
   .option('-a, --action [type]', 'choose an action [type]', '')
   .option('-f, --file [type]', 'choose a file [type]', '')
   .option('-p --path [path]', 'chose path to the folder with css files [path]', '')
-  .parse(process.argv)
+  .parse(process.argv);
 
 if (!program.action
-  || ((program.action !== 'transform' && program.action !== 'reverse' && program.action !== 'cssBundler') && !program.file)
+  || ((program.action !== 'transform'
+    && program.action !== 'reverse'
+    && program.action !== 'cssBundler')
+    && !program.file)
   || (program.action === 'cssBundler' && !program.path)) {
-    console.log('Wrong input! Please input correct data.');
-    return;
-  }
+  console.log('Wrong input! Please input correct data.');
+  return;
+}
 
 if (program.action === 'transform' || program.action === 'reverse') {
   functions[program.action] && functions[program.action](...program.args);
