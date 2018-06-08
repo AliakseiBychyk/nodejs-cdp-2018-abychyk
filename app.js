@@ -1,20 +1,20 @@
-import config from './config/config.json';
-import User from './models/User';
-import Product from './models/Product';
-import DirWatcher from './modules/dirwatcher';
-import Importer from './modules/importer';
+import express from 'express';
+import lightCookieParser from './middlewares/light-cookie-parser';
 
-const user = new User('John Doe');
-const product = new Product('Jumbo Jet');
+const app = express();
 
-console.log(config.name);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-const watcher = new DirWatcher();
-const importer = new Importer(watcher);
+app.use(lightCookieParser());
 
-watcher.watch('./data', 3000);
+app.get('/', (req, res) => {
 
-importer.subscribeListenerForImport('./data');
+  res.write(JSON.stringify(req.cookies));
+  console.log(req.cookies);
 
-// importer.importSync('./data', watcher)
-// watcher.unwatch(15000);
+});
+
+app.listen(8080, () => {
+  console.log('Server listening on port 8080');
+});
