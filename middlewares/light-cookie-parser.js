@@ -3,17 +3,17 @@ module.exports = lightCookieParser;
 const pairSplitRegExp = /; */;
 
 /**
- * Parse Cookie header and populate `req.cookies`
+ * Parse Cookie header and populate `req.parsedCookies`
  * with an object keyed by the cookie names.
  *
  */
 function lightCookieParser() {
   return function lightCookieParser(req, res, next) {
-    if (req.cookies) return next();
+    if (req.parsedCookies) return next();
 
     const cookies = req.headers.cookie;
 
-    req.cookies = parse(cookies);
+    req.parsedCookies = parse(cookies);
 
     next();
   };
