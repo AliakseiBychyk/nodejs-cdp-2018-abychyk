@@ -1,3 +1,4 @@
+import authenticate from './authRoutes';
 import {
   getAllProducts,
   postProduct,
@@ -19,6 +20,8 @@ const routes = app => {
 
   app.route('/api/users')
     .get(getAllUsers);
+
+  app.use('/auth', authenticate);
 };
 
 export default routes;
