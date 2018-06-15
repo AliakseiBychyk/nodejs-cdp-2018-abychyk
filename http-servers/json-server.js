@@ -1,15 +1,18 @@
 const http = require('http');
 const fs = require('fs');
 
+let json;
+
+fs.readFile('./http-servers/public/product.json', 'UTF-8', (err, data) => {
+  if (err) console.error(err);
+  json = data;
+});
+
 const server = http.createServer((req, res) => {
 
-  fs.readFile('./http-servers/public/product.json', 'UTF-8', (err, json) => {
-    if (err) console.error(err);
+  res.writeHead(200, { 'Content-Type': 'text/json' });
 
-    res.writeHead(200, { 'Content-Type': 'text/json' });
-
-    res.end(json);
-  });
+  res.end(json);
 });
 
 server.listen(3025, () => {
