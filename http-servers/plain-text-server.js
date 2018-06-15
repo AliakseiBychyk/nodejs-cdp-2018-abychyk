@@ -8,6 +8,6 @@ const server = http.createServer((req, res) => {
 
 });
 
-server.listen(3015);
-
-console.log('Server listening on port 3015');
+server.listen(3015, () => {
+  console.log('Server listening on port 3015');
+});
