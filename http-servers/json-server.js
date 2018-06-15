@@ -1,12 +1,19 @@
 const http = require('http');
 const fs = require('fs');
+const util = require('util');
+
+const readFile = util.promisify(fs.readFile);
 
 let json;
 
-fs.readFile('./http-servers/public/product.json', 'UTF-8', (err, data) => {
-  if (err) console.error(err);
-  json = data;
-});
+readFile('./http-servers/public/product.json', 'UTF-8')
+  .then(data => { json = data; })
+  .catch(err => console.error(err));
+
+// fs.readFile('./http-servers/public/product.json', 'UTF-8', (err, data) => {
+//   if (err) console.error(err);
+//   json = data;
+// });
 
 const server = http.createServer((req, res) => {
 
