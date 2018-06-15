@@ -7,23 +7,23 @@ const SCOPES = [
   'https://www.googleapis.com/auth/drive',
   'https://www.googleapis.com/auth/drive.readonly',
   'https://www.googleapis.com/auth/drive.metadata.readonly',
-  'https://www.googleapis.com/auth/drive.file'
+  'https://www.googleapis.com/auth/drive.file',
 ];
 const TOKEN_PATH = path.join(__dirname, 'credentials.json');
 
 const googleDriveRequest = (request, options) => {
   fs.readFile(path.join(__dirname, 'client_secret.json'), (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
-    authorize(JSON.parse(content), request, options)
+    authorize(JSON.parse(content), request, options);
   });
-}
+};
 
 const authorize = (credentials, callback, options) => {
   const { client_secret, client_id, redirect_uris } = credentials.installed;
 
   const oAuth2Client = new google.auth.OAuth2(
     client_id, client_secret, redirect_uris[0]);
-  
+
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
@@ -49,18 +49,18 @@ const getAccessToken = (oAuth2Client, callback) => {
         if (err) console.log(err);
         console.log('Token stored to', TOKEN_PATH);
       });
-      callback(oAuth2Client, option);
+      callback(oAuth2Client);
     });
   });
 };
 
 /**
- * 
- * @param {google.auth.OAuth2} auth - an authorized OAuth2 client 
+ *
+ * @param {google.auth.OAuth2} auth - an authorized OAuth2 client
  * @param {Object[]} options - array of additional parameters
  * @param {string} options[].fileId - file identifier in google drive
  * @callback options[].callback - callback methods invoked after getting the file from drive
- * 
+ *
  */
 const getFile = (auth, [fileId, callback]) => {
   const drive = google.drive({ version: 'v3', auth });
@@ -68,25 +68,25 @@ const getFile = (auth, [fileId, callback]) => {
 
   drive.files.get({
     fileId,
-    alt: 'media', 
-    encoding: null
+    alt: 'media',
+    encoding: null,
   }, {
-    responseType: 'stream'
+    responseType: 'stream',
   }, (err, res) => {
-    if (err) return  console.log('The API returned an error: ', err);
+    if (err) return console.log('The API returned an error: ', err);
     res.data
-    .on('error', err => {
-      console.log('Error during download', err)
-    })
-    .on('end', () => {
-      console.log('Done');
+      .on('error', err => {
+        console.log('Error during download', err);
       })
-    .pipe(dest);
-    })
+      .on('end', () => {
+        console.log('Done');
+      })
+      .pipe(dest);
+  });
   dest.on('finish', () => {
-    callback()
-  })
-}
+    callback();
+  });
+};
 
 const listFiles = auth => {
   const drive = google.drive({ version: 'v3', auth });
@@ -102,9 +102,9 @@ const listFiles = auth => {
         console.log(`${file.name} (${file.id})`);
       });
     } else {
-      console.log('No files found.')
+      console.log('No files found.');
     }
   });
-}
+};
 
 module.exports = { googleDriveRequest, getFile };
