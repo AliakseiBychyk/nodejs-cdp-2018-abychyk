@@ -45,7 +45,6 @@ function lightQueryParser() {
  */
 function parse(str) {
 
-  console.log('str', str);
   let obj = {};
   const pairs = str.split(pairSplitRegExp);
 

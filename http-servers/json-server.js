@@ -12,6 +12,6 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(3025);
-
-console.log('Server listening on port 3025');
+server.listen(3025, () => {
+  console.log('Server listening on port 3025');
+});

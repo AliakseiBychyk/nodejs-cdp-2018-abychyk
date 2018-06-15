@@ -1,5 +1,6 @@
 const http = require('http');
 const fs = require('fs');
+const through = require('through2');
 
 const server = http.createServer((req, res) => {
 
@@ -23,24 +24,17 @@ const server = http.createServer((req, res) => {
 /** *********************************************** */
   const reader = fs.createReadStream('./http-servers/public/index.html');
 
-  let html = '';
+  res.writeHead(200, { 'Content-Type': 'text/html' });
 
-  reader.on('data', chunk => {
-    html += chunk;
+  const transformStream = through(function(chunk, enc, next) {
+    const transformedChunk = chunk.toString().replace('{message}', 'HTML server lives forever!');
+    this.push(transformedChunk);
+    next();
   });
 
-  reader.on('end', (err) => {
-    if (err) console.error(err);
-
-    const template = html.replace('{message}', 'HTML server lives forever!');
-
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-
-    res.end(template);
-  });
-
+  reader.pipe(transformStream).pipe(res);
 });
 
-server.listen(3020);
-
-console.log('Server listening on port 3020');
+server.listen(3020, () => {
+  console.log('Server listening on port 3020');
+});
