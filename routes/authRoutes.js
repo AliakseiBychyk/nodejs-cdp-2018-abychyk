@@ -1,14 +1,20 @@
 import { Router } from 'express';
-import { postlogin, logout, google } from '../controllers/authController';
+import login from '../controllers/authControllers/loginController';
+import logout from '../controllers/authControllers/logoutController';
+import google from '../controllers/authControllers/googleController';
+import facebook from '../controllers/authControllers/facebookController';
+import twitter from '../controllers/authControllers/twitterController';
+
 const router = Router();
 
-// auth login
-router.post('/login', postlogin);
+router.post('/login', login);
 
-// auth logout
 router.get('/logout', logout);
 
-// auth with google
 router.get('/google', google);
+
+router.get('/fb', facebook);
+
+router.get('/twitter', twitter);
 
 export default router;

@@ -8,10 +8,9 @@ passport.use(
   },
   (login, password, cb) => {
 
+    // here I implemented hardcoded user without inquiry to db
+    // just to prove login procedure
     const hardcodedUser = { login: 'Rambo', password: '123456' };
-
-    console.log('harcodedUser', hardcodedUser.login, hardcodedUser.password);
-    console.log('user', login, password);
 
     return (login === hardcodedUser.login && password === hardcodedUser.password)
       ? cb(null, hardcodedUser, {message: 'Logged In Successfully'})

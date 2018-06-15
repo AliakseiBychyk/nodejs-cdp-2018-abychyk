@@ -10,11 +10,11 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.use(lightCookieParser());
-// app.use(ligntQueryParser());
-
 app.use(passport.initialize());
 app.use(passport.session());
+
+// app.use(lightCookieParser());
+// app.use(ligntQueryParser());
 
 routes(app);
 

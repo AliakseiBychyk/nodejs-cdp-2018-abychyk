@@ -1,14 +1,15 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 
-export const postlogin = (req, res, next) => {
+const login = (req, res, next) => {
 
   passport.authenticate('local', { session: false }, (err, user, info) => {
 
     if (err || !user) {
       return res.status(400).json({
-        message: 'Something is not right',
-        user,
+        code: 400,
+        message: 'Not Found',
+        data: { user },
       });
     }
 
@@ -18,16 +19,16 @@ export const postlogin = (req, res, next) => {
       }
       const token = jwt.sign(user, 'your_jwt_secret');
 
-      return res.json({ user, token });
+      return res.status(200).json({
+        code: 200,
+        message: 'OK',
+        data: { user },
+        token,
+      });
+
     });
   })(req, res);
 
 };
 
-export const logout = (req, res) => {
-  res.send('logging out');
-};
-
-export const google = (req, res) => {
-  res.send('logging in with Google');
-};
+export default login;
