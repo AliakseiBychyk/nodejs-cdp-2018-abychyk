@@ -19,7 +19,7 @@ function lightQueryParser() {
     // req.parsedQuery = query;
 
     console.log(req.url);
-    let query = req.url.split('?')[1];
+    const query = req.url.split('?')[1];
 
     // check if there is no query
     req.parsedQuery = query !== undefined ? parse(query) : {};
