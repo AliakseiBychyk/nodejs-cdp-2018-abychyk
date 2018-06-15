@@ -3,7 +3,7 @@ import passport from 'passport';
 import lightCookieParser from './middlewares/light-cookie-parser';
 import ligntQueryParser from './middlewares/light-query-parser';
 import routes from './routes/appRoutes';
-require('./config/passport');
+import './config/passport';
 
 const app = express();
 

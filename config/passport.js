@@ -9,6 +9,7 @@ passport.use(
   (login, password, cb) => {
 
     const hardcodedUser = { login: 'Rambo', password: '123456' };
+
     console.log('harcodedUser', hardcodedUser.login, hardcodedUser.password);
     console.log('user', login, password);
 
