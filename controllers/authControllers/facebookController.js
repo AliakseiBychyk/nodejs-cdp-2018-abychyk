@@ -1,8 +1,21 @@
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
+import '../../config/passportFacebookStrategy';
 
-const facebook = (req, res) => {
-  res.send('logging out');
+export const facebookAuth = (req, res, next) => {
+  passport.authenticate('facebook')(req, res, next);
 };
 
-export default facebook;
+export const facebookRedirect = (req, res, next) => {
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/auth',
+  })(req, res, next);
+
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
+};

@@ -1,5 +1,6 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import '../../config/passportLocalStrategy';
 
 const login = (req, res, next) => {
 
