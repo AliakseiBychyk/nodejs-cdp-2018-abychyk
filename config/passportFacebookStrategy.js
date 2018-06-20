@@ -16,3 +16,11 @@ passport.use(
     return done(null, profile._json, accessToken);
   })
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});

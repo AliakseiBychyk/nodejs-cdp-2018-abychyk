@@ -1,8 +1,8 @@
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
 
 const logout = (req, res) => {
-  res.send('logging out');
+  req.logout();
+  res.redirect('/');
 };
 
 export default logout;
