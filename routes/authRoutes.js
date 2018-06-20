@@ -13,12 +13,12 @@ router.get('/logout', logout);
 
 router.get('/google', googleAuth);
 router.get('/google/callback', googleRedirect, (req, res) => {
-  console.log('\nfrom middleware \nreq.user:', req.user);
+  console.log('\nfrom middleware \nreq.user:', req.user); // just to ensure req.user exists
 });
 
 router.get('/facebook', facebookAuth);
 router.get('/facebook/callback', facebookRedirect, (req, res) => {
-  console.log('\nfrom middleware \nreq.user:', req.user);
+  console.log('\nfrom middleware \nreq.user:', req.user); // just to ensure req.user exists
 });
 
 router.get('/twitter', twitterAuth);
