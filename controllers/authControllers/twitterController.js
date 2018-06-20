@@ -1,8 +1,23 @@
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
+// import '../../config/passportTwitterStrategy';
 
-const twitter = (req, res) => {
-  res.send('logging out');
+export const twitterAuth = (req, res, next) => {
+  passport.authenticate('twitter')(req, res, next);
 };
 
-export default twitter;
+export const twitterRedirect = (req, res, next) => {
+  passport.authenticate('twitter',
+    {
+      successRedirect: '/',
+      failureRedirect: '/auth',
+    },
+  )(req, res, next);
+
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
+};
