@@ -4,12 +4,7 @@ import '../../config/passportGoogleAuthStrategy';
 export const googleAuth = (req, res, next) => {
   passport.authenticate('google',
     {
-      // https://developers.google.com/identity/protocols/googlescopes
-
-      // scope: 'https://www.googleapis.com/auth/plus.login', // reques to `View your language preferences`, `View your approximate age`
-      // scope: 'https://www.google.com/m8/feeds', // request to `Manage your contacts`
-      // scope: 'https://www.googleapis.com/auth/drive', // `View and manage the files in your Google Drive`
-      scope: ['profile'], // without any additional request form
+      scope: ['profile'], // https://developers.google.com/identity/protocols/googlescopes
     }
   )(req, res, next);
 };

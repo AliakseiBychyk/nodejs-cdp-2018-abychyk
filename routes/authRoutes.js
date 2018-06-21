@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import login from '../controllers/authControllers/loginController';
+import jwtLogin from '../controllers/authControllers/jwtLoginController';
 import logout from '../controllers/authControllers/logoutController';
 import { googleAuth, googleRedirect } from '../controllers/authControllers/googleController';
 import { facebookAuth, facebookRedirect} from '../controllers/authControllers/facebookController';
@@ -7,7 +8,9 @@ import { twitterAuth, twitterRedirect } from '../controllers/authControllers/twi
 
 const router = Router();
 
-router.post('/login', login);
+router.post('/login', jwtLogin, (req, res) => {
+  console.log('\nreq.user ', req.user);
+});
 
 router.get('/logout', logout);
 

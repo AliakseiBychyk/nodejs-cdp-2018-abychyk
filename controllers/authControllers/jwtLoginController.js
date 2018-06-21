@@ -1,11 +1,9 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import '../../config/passportLocalStrategy';
+import '../../config/passportJWTStrategy';
 
-const login = (req, res, next) => {
-
-  passport.authenticate('local', { session: false }, (err, user, info) => {
-
+const jwtLogin = (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({
         code: 400,
@@ -14,27 +12,20 @@ const login = (req, res, next) => {
       });
     }
 
-    req.login(user, { session: true }, err => {
+    req.login(user, { session: false }, err => {
       if (err) {
         res.send(err);
       }
 
-      const token = jwt.sign(user, 'my_super_jwt_secret');
-
-      res.token = token;
-
       return res.json({
         code: 200,
         message: 'OK',
-        data: { user },
-        token,
+        data: {user},
       });
     });
 
     next();
-
   })(req, res, next);
-
 };
 
-export default login;
+export default jwtLogin;
