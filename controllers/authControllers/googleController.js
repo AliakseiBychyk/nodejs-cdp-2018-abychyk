@@ -4,8 +4,9 @@ import '../../config/passportGoogleAuthStrategy';
 export const googleAuth = (req, res, next) => {
   passport.authenticate('google',
     {
-      // scope: ['https://www.googleapis.com/auth/plus.login'], // additional form requested access to account
-      scope: ['profile'],
+      // scope: ['https://www.googleapis.com/auth/plus.login'], // reques to `View your language preferences`, `View your approximate age`
+      // scope: 'https://www.google.com/m8/feeds', // request to `Manage your contacts`
+      scope: ['profile'], // without any additional request form
     }
   )(req, res, next);
 };
