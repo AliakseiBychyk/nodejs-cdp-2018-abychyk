@@ -22,6 +22,8 @@ router.get('/facebook/callback', facebookRedirect, (req, res) => {
 });
 
 router.get('/twitter', twitterAuth);
-router.get('/twitter/callback', twitterRedirect);
+router.get('/twitter/callback', twitterRedirect, (req, res) => {
+  console.log('\nfrom middleware \nreq.user:', req.user); // actually it is user.name from profile._json
+});
 
 export default router;

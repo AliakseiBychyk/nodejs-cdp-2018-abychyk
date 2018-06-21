@@ -1,10 +1,15 @@
 import express from 'express';
 import passport from 'passport';
-import lightCookieParser from './middlewares/light-cookie-parser';
-import ligntQueryParser from './middlewares/light-query-parser';
+import session from 'express-session';
 import routes from './routes/appRoutes';
 
 const app = express();
+
+app.use(session({
+  secret: 'moon of alabama',
+  resave: false,
+  saveUninitialized: true,
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

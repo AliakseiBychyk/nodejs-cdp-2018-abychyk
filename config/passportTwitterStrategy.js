@@ -10,9 +10,17 @@ passport.use(
   },
   (token, tokenSecret, profile, done) => {
     // `profile` will contain user profile information provided by Twitter
-    console.log('\nprofile: \n\n', profile);
+    console.log('\nprofile._json: \n\n', profile._json);
     console.log('\naccessToken: \n\n', token);
 
-    return done(null, profile, token);
+    return done(null, profile._json, token);
   })
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
