@@ -9,7 +9,6 @@ passport.use(
   },
   (jwt_payload, done) => {
 
-    console.log('jwt_payload', jwt_payload);
     const hardcodedUser = { login: 'Rambo', password: '123456' };
 
     return (

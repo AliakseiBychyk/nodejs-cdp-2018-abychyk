@@ -9,10 +9,6 @@ passport.use(
     callbackURL: 'http://localhost:8080/auth/facebook/callback',
   },
   (accessToken, refreshToken, profile, done) => {
-    // `profile` will contain user profile information provided by Facebook
-    console.log('\nprofile: \n\n', profile);
-    console.log('\naccessToken: \n\n', accessToken);
-
     return done(null, profile._json, accessToken);
   })
 );

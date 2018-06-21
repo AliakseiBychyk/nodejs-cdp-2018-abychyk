@@ -7,6 +7,8 @@ export const twitterAuth = (req, res, next) => {
 
 export const twitterRedirect = (req, res, next) => {
   passport.authenticate('twitter',
+
+    /** easiest aproach */
     // {
     //   successRedirect: '/',
     //   failureRedirect: '/auth',
@@ -17,12 +19,9 @@ export const twitterRedirect = (req, res, next) => {
       if (err || !user) {
         return res.redirect('/auth');
       }
-      console.log('\nuser.name in auth:', user.name);
-
+      // this code set `req.user = user` and then redirect
       req.login(user.name, err => {
         if (err) res.send(err);
-
-        console.log('req.user', req.user);
 
         res.redirect('/');
 

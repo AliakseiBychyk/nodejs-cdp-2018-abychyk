@@ -21,8 +21,6 @@ const login = (req, res, next) => {
 
       const token = jwt.sign(user, 'my_super_jwt_secret');
 
-      res.token = token;
-
       return res.json({
         code: 200,
         message: 'OK',

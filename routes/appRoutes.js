@@ -9,19 +9,21 @@ import {
   getAllUsers,
 } from '../controllers/appController';
 
+const verify = passport.authenticate('jwt', { session: false });
+
 const routes = app => {
   app.route('/api/products')
-    .get(passport.authenticate('jwt', {session: false}), getAllProducts)
-    .post(passport.authenticate('jwt', {session: false}), postProduct);
+    .get(verify, getAllProducts)
+    .post(verify, postProduct);
 
   app.route('/api/products/:id')
-    .get(passport.authenticate('jwt', {session: false}), getProductById);
+    .get(verify, getProductById);
 
   app.route('/api/products/:id/reviews')
-    .get(passport.authenticate('jwt', {session: false}), getReviewByProduct);
+    .get(verify, getReviewByProduct);
 
   app.route('/api/users')
-    .get(passport.authenticate('jwt', {session: false}), getAllUsers);
+    .get(verify, getAllUsers);
 
   app.use('/auth', authenticate);
 };

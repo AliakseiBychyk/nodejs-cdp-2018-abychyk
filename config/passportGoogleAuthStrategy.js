@@ -11,11 +11,6 @@ passport.use(
     callbackURL: process.env.GOOGLE_CALLBACK_URL || redirect_uris[1], // 'http://localhost:8080/auth/google/callback',
   },
   (accessToken, refreshToken, profile, done) => {
-    // `profile` will contain user profile information provided by Google
-    console.log('\nprofile: \n', profile._json);
-    console.log('\nprofile.id: ', profile.id);
-    console.log('\naccessToken: ', accessToken);
-
     return done(null, profile._json, accessToken);
   })
 );
