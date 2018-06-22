@@ -15,12 +15,9 @@ export const googleRedirect = (req, res, next) => {
       if (err || !user) {
         return res.redirect('/auth');
       }
-      console.log('\nuser in auth:', user.displayName);
 
       req.login(user.displayName, { session: false }, err => {
         if (err) res.send(err);
-
-        console.log('req.user', req.user);
 
         res.redirect('/');
 
