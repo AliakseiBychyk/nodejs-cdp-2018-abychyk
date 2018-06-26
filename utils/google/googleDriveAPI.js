@@ -9,10 +9,10 @@ const SCOPES = [
   'https://www.googleapis.com/auth/drive.metadata.readonly',
   'https://www.googleapis.com/auth/drive.file',
 ];
-const TOKEN_PATH = path.join(__dirname, 'credentials.json');
+const TOKEN_PATH = '../../secret/google_drive_API_credentials.json';
 
 const googleDriveRequest = (request, options) => {
-  fs.readFile(path.join(__dirname, 'client_secret.json'), (err, content) => {
+  fs.readFile('../../secret/google_client_secret.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     authorize(JSON.parse(content), request, options);
   });
@@ -22,7 +22,10 @@ const authorize = (credentials, callback, options) => {
   const { client_secret, client_id, redirect_uris } = credentials.installed;
 
   const oAuth2Client = new google.auth.OAuth2(
-    client_id, client_secret, redirect_uris[0]);
+    client_id,
+    client_secret,
+    redirect_uris[0]
+  );
 
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getAccessToken(oAuth2Client, callback);

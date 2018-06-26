@@ -1,3 +1,6 @@
+import passport from 'passport';
+import '../config/passportJWTStrategy';
+import authenticate from './authRoutes';
 import {
   getAllProducts,
   postProduct,
@@ -6,19 +9,23 @@ import {
   getAllUsers,
 } from '../controllers/appController';
 
+const verify = passport.authenticate('jwt', { session: false });
+
 const routes = app => {
   app.route('/api/products')
-    .get(getAllProducts)
-    .post(postProduct);
+    .get(verify, getAllProducts)
+    .post(verify, postProduct);
 
   app.route('/api/products/:id')
-    .get(getProductById);
+    .get(verify, getProductById);
 
   app.route('/api/products/:id/reviews')
-    .get(getReviewByProduct);
+    .get(verify, getReviewByProduct);
 
   app.route('/api/users')
-    .get(getAllUsers);
+    .get(verify, getAllUsers);
+
+  app.use('/auth', authenticate);
 };
 
 export default routes;

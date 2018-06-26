@@ -1,25 +1,26 @@
 import express from 'express';
-import router from './routes/appRoutes';
-import lightCookieParser from './middlewares/light-cookie-parser';
-import ligntQueryParser from './middlewares/light-query-parser';
+import passport from 'passport';
+import session from 'express-session';
 import routes from './routes/appRoutes';
 
 const app = express();
 
+app.use(session({
+  secret: 'moon of alabama',
+  resave: false,
+  saveUninitialized: true,
+}));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(lightCookieParser());
-app.use(ligntQueryParser());
+app.use(passport.initialize());
+app.use(passport.session());
 
 routes(app);
 
 app.get('/', (req, res) => {
-
-  res.write(JSON.stringify(req.parsedCookies));
-  res.write(JSON.stringify(req.parsedQuery));
-  console.log(req.parsedCookies);
-  console.log(req.parsedQuery);
+  res.send('Hello! Welcome to the club!');
 });
 
 export default app;

@@ -22,14 +22,7 @@ function lightQueryParser() {
     const query = req.url.split('?')[1];
 
     // check if there is no query
-    if (query === undefined) {
-
-      req.parsedQuery = {};
-
-      return next();
-    }
-
-    req.parsedQuery = parse(query);
+    req.parsedQuery = query !== undefined ? parse(query) : {};
 
     next();
   };
