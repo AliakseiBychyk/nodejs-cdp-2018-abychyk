@@ -1,12 +1,16 @@
 import passport from 'passport';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
-import { twitterConsumerKey, twitterConsumerSecret } from '../secret/twitter.json';
+import {
+  twitterConsumerKey,
+  twitterConsumerSecret,
+  twitterCallbackUri,
+} from '../secret/twitter.json';
 
 passport.use(
   new TwitterStrategy({
     consumerKey: process.env.TWITTER_CONSUMER_KEY || twitterConsumerKey,
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET || twitterConsumerSecret,
-    callbackURL: 'http://localhost:8080/auth/twitter/callback',
+    callbackURL: process.env.TWITTER_CALLBACK_URI || twitterCallbackUri,
   },
   (token, tokenSecret, profile, done) => {
 
