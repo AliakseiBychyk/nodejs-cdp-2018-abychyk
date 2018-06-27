@@ -7,9 +7,9 @@ const { mongodb_uri, mongodb_db } = require('./config/config.json');
 
 function insertMongodb(collection, data) {
   const promisedInserts = [];
-  data.forEach(item => {
+  data.forEach(city => {
     promisedInserts.push(
-      collection.insertOne({item})
+      collection.insertOne(city)
     );
   });
   return Promise.all(promisedInserts);
@@ -25,7 +25,12 @@ MongoClient.connect(mongodb_uri, { useNewUrlParser: true }, (err, client) => {
     .then(result => {
       console.log(`Successfully inserted ${result.length} documents into mongodb`);
 
-      collection.aggregate([{$sample: {size: 1}}]).toArray()
+      // here I randomly choose 1 document from collection using
+      // aggregation framework, get rid of `_id`, and put it into array
+      collection.aggregate([
+        { $sample: { size: 1 } },
+        { $project: { _id: 0 } },
+      ]).toArray()
         .then(doc => {
           console.log(`Random city: ${JSON.stringify(doc[0])}`);
           client.close();
