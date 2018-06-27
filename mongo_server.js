@@ -1,5 +1,4 @@
 const { MongoClient } = require('mongodb');
-const fs = require('fs');
 
 const cities = require('./data/cities.json');
 const { mongodb_uri, mongodb_db } = require('./config/config.json');
