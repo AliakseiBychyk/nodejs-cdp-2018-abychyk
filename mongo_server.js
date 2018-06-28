@@ -8,7 +8,12 @@ function insertMongodb(collection, data) {
   const promisedInserts = [];
   data.forEach(city => {
     promisedInserts.push(
-      collection.insertOne(city)
+      collection.find({ name: city.name }).toArray()
+        .then((result) => {
+          if (result.length > 0) return console.log('City already exists');
+          return collection.insertOne(city);
+        })
+        .catch(err => console.log(err))
     );
   });
   return Promise.all(promisedInserts);
@@ -22,7 +27,12 @@ MongoClient.connect(mongodb_uri, { useNewUrlParser: true }, (err, client) => {
 
   insertMongodb(collection, cities)
     .then(result => {
-      console.log(`Successfully inserted ${result.length} documents into mongodb`);
+
+      const objectsInserted = result.reduce((acc, el) => {
+        return el === undefined ? acc : ++acc;
+      }, 0);
+
+      console.log(`Successfully inserted ${objectsInserted} documents into mongodb`);
 
       // here I randomly choose 1 document from collection using
       // aggregation framework, get rid of `_id`, and put it into array
