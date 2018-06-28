@@ -1,13 +1,13 @@
-FROM node:10.0
+FROM node:latest
 
-RUN mkdir /app
-WORKDIR /app
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
 
-COPY package.json /app
+COPY package.json /usr/src/app
 RUN npm install
 
-COPY . /app
+COPY . /usr/src/app
 
 EXPOSE 3000
 
-CMD ["node", "--require", "babel-core/register", "./index.js"]
+CMD ["npm", "start"]
