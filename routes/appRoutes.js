@@ -1,6 +1,7 @@
 import passport from 'passport';
 import '../config/passportJWTStrategy';
 import authenticate from './authRoutes';
+import {getAllCities, postCities} from '../controllers/citiesController';
 import {
   getAllProducts,
   postProduct,
@@ -24,6 +25,10 @@ const routes = app => {
 
   app.route('/api/users')
     .get(verify, getAllUsers);
+
+  app.route('/api/cities')
+    .get(getAllCities)
+    .post(postCities);
 
   app.use('/auth', authenticate);
 };
