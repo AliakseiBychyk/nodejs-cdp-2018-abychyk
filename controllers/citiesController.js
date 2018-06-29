@@ -17,6 +17,12 @@ const checkCity = (city) => {
     .catch(err => console.log(err));
 };
 
+export const getAllCities = (req, res) => {
+  Cities.find({})
+    .then(data => res.json(data))
+    .catch(err => res.send({ status: res.statusCode, error: err }));
+};
+
 export const postCities = (req, res) => {
   const newCity = new Cities({ ...req.body });
   checkCity(newCity)
@@ -26,16 +32,34 @@ export const postCities = (req, res) => {
     .catch(err => res.send({ status: 500, error: err }));
 };
 
-export const getAllCities = (req, res) => {
-  Cities.find({})
-    .then(data => res.json(data))
+export const updateCityById = (req, res) => {
+  const cityName = req.params.name;
+
+  Cities.find({ name: cityName })
+    .then(city => {
+      if (city.length === 0) {
+        const newCity = new Cities({ ...req.body });
+        return checkCity(newCity)
+          .then(city => res.json(city))
+          .catch(err => res.send({ status: res.statusCode, error: err }));
+      }
+      Cities.updateOne({ name: cityName }, req.body, {upsert: false})
+        .then((result) => {
+          console.log(`modified ${result.nModified} documents`);
+          res.end();
+        })
+        .catch(err => console.log(err));
+    })
     .catch(err => res.send({ status: res.statusCode, error: err }));
 };
 
-export const updateCityById = (req, res) => {
-
-};
-
 export const deleteCityById = (req, res) => {
+  const cityName = req.params.name;
 
+  Cities.deleteOne({ name: cityName })
+    .then((result) => {
+      console.log(`deleted ${result.n} documents`);
+      res.end();
+    })
+    .catch(err => res.send({ status: res.statusCode, error: err }));
 };

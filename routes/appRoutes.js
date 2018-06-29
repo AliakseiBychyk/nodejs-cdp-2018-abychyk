@@ -23,7 +23,8 @@ import {
 
 /**
  * should be authorized by `Authorization` header with token:
- * Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6IlJhbWJvIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJpYXQiOjE1Mjk1ODEwNjd9.x-1GPKF5tu41UaLcYpS_daqPXHJ3gzM_7XSaXnz4zlE
+ *
+ * Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6IlJhbWJvIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJpYXQiOjE1Mjk1ODEwNjd9.x-1GPKF5tu41UaLcYpS_daqPXHJ3gzM_7XSaXnz4zlE  eslint-disable-line max-len
  *
  * or simply change to mock authorization middleware commented below:
  */
@@ -54,7 +55,7 @@ const routes = app => {
     .get(getAllCities)
     .post(postCities);
 
-  app.route('/api/cities/:id')
+  app.route('/api/cities/:name')
     .put(updateCityById)
     .delete(deleteCityById);
 

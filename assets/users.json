@@ -17,12 +17,37 @@
     "name": "James Bond",
     "age": 52,
     "job": {
-        "company": "Swiss Bank"
+        "company": "Swiss Bank",
+        "address": {
+        	"address": "Zuricher Platz, 5",
+        	"city": "Zurich",
+        	"country": "Switzerland"
+        }
     },
     "address": {
         "addres": "Blumen Strasse, 54",
         "city": "Zurich",
-        "country": "Switzerland"
+        "country": "Switzerland",
+        "zipcode": "CH-2087"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Jane Bond",
+    "age": 34,
+    "job": {
+        "company": "Swiss Bank",
+        "address": {
+        	"address": "Zuricher Platz, 5",
+        	"city": "Zurich",
+        	"country": "Switzerland"
+        }
+    },
+    "address": {
+        "addres": "Blumen Strasse, 54",
+        "city": "Zurich",
+        "country": "Switzerland",
+        "zipcode": "CH-2087"
     }
   }
 ]
