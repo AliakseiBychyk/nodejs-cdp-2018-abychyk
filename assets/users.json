@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "name": "Bruce Willis",
+    "age": 60,
+    "job": {
+        "company": "XX centuries fox"
+    },
+    "address": {
+        "addres": "East 52d street, 308",
+        "city": "NYC",
+        "country": "USA"
+    }
+  },
+  {
+    "id": 2,
+    "name": "James Bond",
+    "age": 52,
+    "job": {
+        "company": "Swiss Bank"
+    },
+    "address": {
+        "addres": "Blumen Strasse, 54",
+        "city": "Zurich",
+        "country": "Switzerland"
+    }
+  }
+]

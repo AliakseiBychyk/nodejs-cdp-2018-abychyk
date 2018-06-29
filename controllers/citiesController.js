@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import CitySchema from '../models/mongoose/cities';
 import cities from '../assets/cities.json';
 
-const Cities = mongoose.model('Cities', CitySchema);
+const Cities = mongoose.model('cities', CitySchema);
 
 const checkCity = (city) => {
   return Cities.find({ name: city.name })
@@ -30,4 +30,12 @@ export const getAllCities = (req, res) => {
   Cities.find({})
     .then(data => res.json(data))
     .catch(err => res.send({ status: res.statusCode, error: err }));
+};
+
+export const updateCityById = (req, res) => {
+
+};
+
+export const deleteCityById = (req, res) => {
+
 };
