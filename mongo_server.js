@@ -1,3 +1,6 @@
+/**
+ *   Native implementation of MongoDB server with some CRUD operations
+ */
 const { MongoClient } = require('mongodb');
 
 const cities = require('./assets/cities.json');
