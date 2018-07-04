@@ -1,3 +1,5 @@
+import productService from '../services/productService';
+
 export const getAllProducts = (req, res) => {
   // some logic should be implemented here
   res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -25,8 +27,6 @@ export const getReviewByProduct = (req, res) => {
   res.end(`All reviews by product with id=${id} go here`);
 };
 
-export const getAllUsers = (req, res) => {
-  // some logic should be implemented here
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('All users go here');
+export const deleteProductById = (req, res) => {
+  res.end();
 };

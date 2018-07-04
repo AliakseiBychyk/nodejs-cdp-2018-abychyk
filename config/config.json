@@ -3,5 +3,7 @@
   "csv_options": {
     "delimiter": ",",
     "quote": "\""
-  }
+  },
+  "mongodb_uri": "mongodb://localhost:37017",
+  "mongodb_db": "nodejs_2018"
 }
