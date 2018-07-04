@@ -10,6 +10,7 @@ const CitySchema = new Schema({
     lat: { type: Number, required: true, index: false },
     long: { type: Number, required: true, index: false },
   },
+  lastModifiedDate: { type: String, required: false },
 });
 
 export default CitySchema;

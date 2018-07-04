@@ -11,24 +11,30 @@ const checkCity = (city) => {
         console.log('City already exists');
         return {};
       }
-      city.save();
-      return city;
+      return city.save();
     })
+    .catch(err => console.log(err));
+};
+
+const addLastModifiedField = (cityName) => {
+  const lastModifiedDate = new Date().toString();
+
+  return Cities.findOneAndUpdate({ name: cityName }, { lastModifiedDate })
+    .then(city => city)
     .catch(err => console.log(err));
 };
 
 export const getAllCities = (req, res) => {
   Cities.find({})
     .then(data => res.json(data))
-    .catch(err => res.send({ status: res.statusCode, error: err }));
+    .catch(err => res.send({ status: 500, error: err }));
 };
 
 export const postCities = (req, res) => {
   const newCity = new Cities({ ...req.body });
   checkCity(newCity)
-    .then(city => {
-      res.json(city);
-    })
+    .then(city => addLastModifiedField(city.name))
+    .then(city => res.json(city))
     .catch(err => res.send({ status: 500, error: err }));
 };
 
@@ -41,16 +47,19 @@ export const updateCityById = (req, res) => {
         const newCity = new Cities({ ...req.body });
         return checkCity(newCity)
           .then(city => res.json(city))
-          .catch(err => res.send({ status: res.statusCode, error: err }));
+          .catch(err => res.send({ status: 500, error: err }));
       }
-      Cities.updateOne({ name: cityName }, req.body, {upsert: false})
+      Cities.updateOne({ name: cityName }, req.body)
         .then((result) => {
-          console.log(`modified ${result.nModified} documents`);
-          res.end();
+          console.log(`modified ${result.nModified} document(s)`);
+          return Cities.findOne({ name: cityName })
+            .then(city => addLastModifiedField(city.name))
+            .then(city => res.json(city))
+            .catch(err => res.send({ status: 500, error: err}));
         })
         .catch(err => console.log(err));
     })
-    .catch(err => res.send({ status: res.statusCode, error: err }));
+    .catch(err => res.send({ status: 500, error: err }));
 };
 
 export const deleteCityById = (req, res) => {
@@ -61,5 +70,5 @@ export const deleteCityById = (req, res) => {
       console.log(`deleted ${result.n} documents`);
       res.end();
     })
-    .catch(err => res.send({ status: res.statusCode, error: err }));
+    .catch(err => res.send({ status: 500, error: err }));
 };
