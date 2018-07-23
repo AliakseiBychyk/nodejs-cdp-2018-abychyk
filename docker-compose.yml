@@ -19,11 +19,7 @@ services:
   postgres:
     container_name: postgresql
     image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=123qwe123
-      - POSTGRES_DB=nodejs_2018
     ports:
-      - "5432:5432"
+      - "6432:5432"
 volumes:
   mongodata:
