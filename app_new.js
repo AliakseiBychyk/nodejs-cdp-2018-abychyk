@@ -13,11 +13,11 @@ import config, {
 
 const app = express();
 
-const sequelize = new Sequelize(`${postgres_uri}/postgres`, postgres_config);
+const sequelize = new Sequelize(`${postgres_uri}/${postgres_db}`, postgres_config);
 sequelize
   .authenticate()
   .then(() => {
-    console.log(`Successfully connected to PostgreSQL with sequelize on ${postgres_uri}`);
+    console.log(`Successfully connected to PostgreSQL with sequelize on ${postgres_uri}/${postgres_db}`);
   })
   .catch(err => {
     console.error(`There was a db connection error\n ${err}`);
