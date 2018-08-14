@@ -5,5 +5,15 @@
     "quote": "\""
   },
   "mongodb_uri": "mongodb://localhost:37017",
-  "mongodb_db": "nodejs_2018"
+  "mongodb_db": "nodejs_2018",
+  "postgres_uri": "postgres://postgres:123qwe123@localhost:6432",
+  "postgres_db": "nodejs_2018",
+  "postgres_config": {
+    "host": "localhost",
+    "dialect": "postgres",
+    "user": "postgres",
+    "password": "123qwe123",
+    "port": 6432, 
+    "database": "nodejs_2018"
+  }
 }
