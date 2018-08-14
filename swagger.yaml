@@ -1,0 +1,128 @@
+---
+swagger: "2.0"
+info:
+  description: This is an API for Node.js project by Aliaksei Bychyk
+  version: 1.0.0
+  title: Node_2018 CDP ABychyk
+  contact:
+    email: aliaksei_bychyk@epam.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /ABychyk/Node_2018/1.0.0
+tags:
+- name: developers
+  description: Operations available to regular developers
+schemes:
+- https
+paths:
+  /api/products:
+    get:
+      tags:
+      - developers
+      summary: searches products
+      description: |
+        Get all products from database collection
+      operationId: getAllProducts
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - developers
+      summary: adds a product
+      description: |
+        Adds an item to the system
+      operationId: postProduct
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        201:
+          description: product item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+  /api/products/{productId}:
+    get:
+      tags:
+      - developers
+      summary: searches product by ID
+      description: |
+        Get one product from database collection
+      operationId: getProductById
+      produces:
+      - application/json
+      parameters:
+      - name: productId
+        in: path
+        description: The ID of the product to return
+        required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: bad input parameter
+    delete:
+      tags:
+      - developers
+      summary: deletes product by ID
+      description: |
+        Remove one prouct from database collection
+      operationId: deleteProductById
+      parameters:
+      - name: productId
+        in: path
+        description: The ID of the product to delete
+        required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: bad input parameter
+  /api/products/{productId}/reviews:
+    get:
+      tags:
+      - developers
+      summary: get all reviews for product with ID
+      description: |
+        Get all reviews of the product with ID
+      operationId: getReviewByProduct
+      parameters:
+      - name: productId
+        in: path
+        description: The ID of the product that has reviews
+        required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: bad input parameter
+definitions:
+  ProductItem:
+    type: object
+    required:
+    - brand
+    - id
+    - name
+    - price
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+        example: Automobile
+      brand:
+        type: string
+        example: Audi
+      price:
+        type: integer
